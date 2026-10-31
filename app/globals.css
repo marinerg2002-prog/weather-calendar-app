@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  min-height: 100dvh;
+  background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 40%, #ffffff 100%);
+  color: #1e293b;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", Meiryo, system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
