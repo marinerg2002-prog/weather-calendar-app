@@ -13,6 +13,7 @@ export default function WeatherApp() {
   const [selected, setSelected] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [activeCity, setActiveCity] = useState<string>("");
   const requestId = useRef(0);
 
   const search = async (city: string) => {
@@ -33,6 +34,7 @@ export default function WeatherApp() {
         return;
       }
       setData(json);
+      setActiveCity(city);
       // 今日の予報があれば今日、なければ最初の日を選択
       const hasToday = json.days.some((d) => d.date === json.today);
       setSelected(hasToday ? json.today : json.days[0].date);
@@ -48,7 +50,7 @@ export default function WeatherApp() {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      <SearchForm loading={loading} onSearch={search} />
+      <SearchForm loading={loading} activeCity={activeCity} onSearch={search} />
 
       {error && (
         <div

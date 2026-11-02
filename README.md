@@ -5,6 +5,9 @@
 ## 主な機能
 
 - 都市名（日本語・英語どちらも可）で天気予報を検索
+- 「お気に入りの都市」を自由に追加・削除（最大10件、重複不可、ブラウザの localStorage に保存）
+  - 都市名をクリックするとその都市の天気予報を表示
+  - 初回利用時は 東京・大阪・札幌・福岡・那覇・London が登録済み
 - 気温（℃）・天気・湿度（％）・降水確率（％）を表示
 - カレンダーで日付を選ぶと、その日の天気予報に切り替え
 - 予報データがある期間の日付だけ選択可能（それ以外はグレー表示）
@@ -25,9 +28,10 @@
 app/
   api/weather/route.ts   … サーバー側の API（ここで OpenWeatherMap を呼び出す）
   layout.tsx, page.tsx, globals.css
-components/              … 画面部品（検索フォーム・カレンダー・天気詳細・予報一覧）
+components/              … 画面部品（検索フォーム・お気に入りの都市・カレンダー・天気詳細・予報一覧）
 lib/
   openweather.ts         … OpenWeatherMap の呼び出しと日付ごとの集計（サーバー専用）
+  favorites.ts           … お気に入りの都市の保存・読み込み（localStorage）
   date.ts, types.ts
 .env.example             … 環境変数のひな形（変数名のみ）
 ```

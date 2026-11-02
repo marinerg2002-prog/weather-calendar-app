@@ -1,15 +1,16 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-
-const SUGGESTIONS = ["東京", "大阪", "札幌", "福岡", "那覇", "London"];
+import FavoriteCities from "./FavoriteCities";
 
 type Props = {
   loading: boolean;
+  /** 最後に表示に成功した検索語（お気に入りの強調表示に使う） */
+  activeCity?: string;
   onSearch: (city: string) => void;
 };
 
-export default function SearchForm({ loading, onSearch }: Props) {
+export default function SearchForm({ loading, activeCity, onSearch }: Props) {
   const [value, setValue] = useState("");
 
   const handleSubmit = (e: FormEvent) => {
@@ -48,20 +49,7 @@ export default function SearchForm({ loading, onSearch }: Props) {
           {loading ? "検索中…" : "🔍 検索"}
         </button>
       </form>
-      <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
-        <span className="text-slate-500">よく使う都市:</span>
-        {SUGGESTIONS.map((city) => (
-          <button
-            key={city}
-            type="button"
-            onClick={() => pick(city)}
-            disabled={loading}
-            className="rounded-full bg-sky-50 px-3 py-1 text-sky-700 ring-1 ring-sky-100 transition hover:bg-sky-100 disabled:opacity-50"
-          >
-            {city}
-          </button>
-        ))}
-      </div>
+      <FavoriteCities loading={loading} activeCity={activeCity} onSelect={pick} />
     </div>
   );
 }
