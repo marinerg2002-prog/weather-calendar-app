@@ -15,8 +15,28 @@ export async function GET(
     return NextResponse.json({ error: "都市名が長すぎます。" }, { status: 400 });
   }
 
+  // 検索結果の候補から場所を選び直すときは座標も指定される
+  const latParam = request.nextUrl.searchParams.get("lat");
+  const lonParam = request.nextUrl.searchParams.get("lon");
+  let pick: { lat: number; lon: number } | undefined;
+  if (latParam !== null || lonParam !== null) {
+    const lat = Number(latParam);
+    const lon = Number(lonParam);
+    if (
+      latParam === null ||
+      lonParam === null ||
+      !Number.isFinite(lat) ||
+      !Number.isFinite(lon) ||
+      Math.abs(lat) > 90 ||
+      Math.abs(lon) > 180
+    ) {
+      return NextResponse.json({ error: "場所の指定が正しくありません。" }, { status: 400 });
+    }
+    pick = { lat, lon };
+  }
+
   try {
-    return NextResponse.json(await getWeather(city));
+    return NextResponse.json(await getWeather(city, pick));
   } catch (e) {
     if (e instanceof WeatherError) {
       return NextResponse.json({ error: e.message }, { status: e.status });
